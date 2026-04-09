@@ -1480,8 +1480,10 @@ public class ChangeZoneAi extends SpellAbilityAi {
             return null;
         }
         List<String> keyCards = new ArrayList<>(player.getRegisteredPlayer().getDeck().getKeyCards());
-        // Only grab the keycards I don't already have access to
-        if (destination.equals(ZoneType.Battlefield) || destination.equals(ZoneType.Hand)) {
+        String position = sa.getParamOrDefault("LibraryPosition", null);
+        // FOcus on the keycards I don't already have access to
+        if (destination.equals(ZoneType.Battlefield) || destination.equals(ZoneType.Hand) ||
+            (destination.equals(ZoneType.Library) && "0".equals(position))) {
             for(Card c : player.getCardsIn(Lists.newArrayList(ZoneType.Hand, ZoneType.Battlefield))) {
                 keyCards.remove(c.getName());
             }
